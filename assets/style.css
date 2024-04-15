@@ -7,9 +7,6 @@ header h1 {
     background-size: cover;
     color: white;
 }
-main div {
-    /* display: flex; */
-}
 #current-weather {
     border: 1px solid black;
 }
@@ -25,7 +22,7 @@ main div {
     color: white;
 }
 @media screen and (max-width: 768px) {
-    
+
     #forecast {
         display: flex;
         flex-direction: column;
