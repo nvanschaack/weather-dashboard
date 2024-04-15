@@ -1,0 +1,12 @@
+header h1 {
+    border: 1px solid black;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    background-image: url(../assets/images/blue.jpeg);
+    background-size: cover;
+    color: white;
+}
+#current-weather {
+    border: 1px solid black;
+}

@@ -16,10 +16,6 @@ submit.addEventListener('submit', function (event) {
 
 })
 
-//need to replace {city name} in requestUrl with the searchBar the user types in (line 14&15)
-//
-
-
 function getCurrentWeatherApi(city) {
     const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=92fcbfd3ad1811da2b8b45a50a20bd0c&units=imperial`
 
@@ -42,17 +38,14 @@ function getCurrentWeatherApi(city) {
             const icon = document.createElement('img')
             icon.setAttribute('src', `http://openweathermap.org/img/w/${data.weather[0].icon}.png`)
 
-       
-
-
             cityName.textContent = data.name + ' '+timeString
             temperature.textContent = `The current temperature is ${data.main.temp}℉`
             humidity.textContent = `The humidity is ${data.main.humidity}%`
             wind.textContent = `The wind speed is ${data.wind.speed}mph`
 
-
             currentWeather.append(cityName, icon, temperature, humidity, wind)
 
+            currentWeather.setAttribute('id', 'current-weather')
         })
 
 }
@@ -66,34 +59,34 @@ function getForecaseWeatherApi(city) {
             return response.json()
         })
         .then(function (data) {
-            console.log('Forecast',data)
+            console.log('forecast',data)
 
+            // with data, i want to present it in forecast div
+            //create element(s) to put date, temperature, humidity, and wind
 
-            
-            // with data, i want to present it in current weather div
-            // //create element(s) to put city name, date, weather icon, temperature, humidity, and wind
-            // const cityName = document.createElement('h2')
-            // const temperature = document.createElement('p')
-            // const humidity = document.createElement('p')
-            // const wind = document.createElement('p')
-            // const unixTimestamp = data.dt;
-            // const date = new Date(unixTimestamp * 1000);
-            // const timeString = date.toLocaleDateString();
-            // const icon = document.createElement('img')
-            // icon.setAttribute('src', `http://openweathermap.org/img/w/${data.weather[0].icon}.png`)
+            const temperature = document.createElement('p')
+            const humidity = document.createElement('p')
+            const wind = document.createElement('p')
+            const unixTimestamp = data.list[0].dt;
+            const date = new Date(unixTimestamp * 1000);
+            const timeString = date.toLocaleDateString();
+            const icon = document.createElement('img')
+            icon.setAttribute('src', `http://openweathermap.org/img/w/${data.list[0].weather[0].icon}.png`)
 
-       
+            temperature.textContent = `The current temperature is ${data.list[0].main.temp}℉`
+            humidity.textContent = `The humidity is ${data.list[0].main.humidity}%`
+            wind.textContent = `The wind speed is ${data.list[0].wind.speed}mph`
 
+            forecast.append(timeString, icon, temperature, humidity, wind)
 
-            // cityName.textContent = data.name + ' '+timeString
-            // temperature.textContent = `The current temperature is ${data.main.temp}℉`
-            // humidity.textContent = `The humidity is ${data.main.humidity}%`
-            // wind.textContent = `The wind speed is ${data.wind.speed}mph`
-
-
-            // currentWeather.append(cityName, icon, temperature, humidity, wind)
-
+            // i want to make a loop so that the weather dashboard will display the 5-day forecast (at noon?)
+            for (let i = 0; i < data.list.length; i++) {
+                const element = [i];
+                if (data.list[i] === 3 && 11 && 19 && 27 && 35) {
+                    console.log(element)
+                }
+            }
         })
-
 }
+
 
