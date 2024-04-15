@@ -31,6 +31,9 @@ function getCurrentWeatherApi(city) {
             console.log('current weather', data)
             // with data, i want to present it in current weather div
             //create element(s) to put city name, date, weather icon, temperature, humidity, and wind
+
+            //NEED TO MAKE A NEW DIV TO PUT ALL OTHER ELEMENTS INTO
+
             const cityName = document.createElement('h2')
             const temperature = document.createElement('p')
             const humidity = document.createElement('p')
@@ -69,6 +72,9 @@ function getForecaseWeatherApi(city) {
                 const element = data.list[i];
                 if (element.dt_txt.split(' ')[1] === '12:00:00' && i > 0) {
                     console.log(element)
+
+                    //NEED TO MAKE A NEW DIV TO PUT ALL OTHER ELEMENTS INTO
+
                     const temperature = document.createElement('p')
                     const humidity = document.createElement('p')
                     const wind = document.createElement('p')
