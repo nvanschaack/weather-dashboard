@@ -6,17 +6,17 @@ const forecast = document.getElementById('forecast')
 submit.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    // console.log (searchBar.value)
-    //what goes into the searchvalue, i want saved to local storage
     const searchInput = searchBar.value
-    // localStorage.setItem('searchInput', searchInput)
-    //need to getItem from localStorage
+    
     currentWeather.innerHTML = null
     forecast.innerHTML = null
 
     getCurrentWeatherApi(searchInput)
     getForecaseWeatherApi(searchInput)
 
+    //what goes into the searchvalue, i want saved to local storage
+    localStorage.setItem('searchInput', searchInput)
+    //need to getItem from localStorage
 })
 
 function getCurrentWeatherApi(city) {
@@ -32,8 +32,7 @@ function getCurrentWeatherApi(city) {
             // with data, i want to present it in current weather div
             //create element(s) to put city name, date, weather icon, temperature, humidity, and wind
 
-            //NEED TO MAKE A NEW DIV TO PUT ALL OTHER ELEMENTS INTO
-
+            const newWeatherDiv = document.createElement('div')
             const cityName = document.createElement('h2')
             const temperature = document.createElement('p')
             const humidity = document.createElement('p')
@@ -49,9 +48,11 @@ function getCurrentWeatherApi(city) {
             humidity.textContent = `The humidity is ${data.main.humidity}%`
             wind.textContent = `The wind speed is ${data.wind.speed}mph`
 
-            currentWeather.append(cityName, icon, temperature, humidity, wind)
 
-            currentWeather.setAttribute('id', 'current-weather')
+            newWeatherDiv.append(cityName, icon, temperature, humidity, wind)
+            currentWeather.append(newWeatherDiv)
+
+            newWeatherDiv.setAttribute('id', 'current-weather')
         })
 
 }
@@ -73,8 +74,7 @@ function getForecaseWeatherApi(city) {
                 if (element.dt_txt.split(' ')[1] === '12:00:00' && i > 0) {
                     console.log(element)
 
-                    //NEED TO MAKE A NEW DIV TO PUT ALL OTHER ELEMENTS INTO
-
+                    const newForecastDiv = document.createElement('div')
                     const temperature = document.createElement('p')
                     const humidity = document.createElement('p')
                     const wind = document.createElement('p')
@@ -84,11 +84,15 @@ function getForecaseWeatherApi(city) {
                     const icon = document.createElement('img')
                     icon.setAttribute('src', `http://openweathermap.org/img/w/${element.weather[0].icon}.png`)
 
-                    temperature.textContent = `The current temperature is ${element.main.temp}℉`
-                    humidity.textContent = `The humidity is ${element.main.humidity}%`
-                    wind.textContent = `The wind speed is ${element.wind.speed}mph`
+                    temperature.textContent = `Temperature: ${element.main.temp}℉`
+                    humidity.textContent = `Humidity ${element.main.humidity}%`
+                    wind.textContent = `Wind Speed: ${element.wind.speed}mph`
 
-                    forecast.append(timeString, icon, temperature, humidity, wind)
+                    newForecastDiv.append(timeString, ' ', icon, temperature, humidity, wind)
+                    forecast.append(newForecastDiv)
+
+                    newForecastDiv.setAttribute('id', 'each-day-forecast')
+                    // newForecastDiv.setAttribute('class', 'card-body')
                 }
             }
         })
