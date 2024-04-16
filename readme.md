@@ -2,7 +2,7 @@
 ![Preview of Weather Dashboard](./assets/images/weather-dashboard-preview.png) 
 
 ## Description
-This [application](deployed URL) is a weather dashboard meant for anyone who needs the current weather and 5-day forecast for any city in the world! After searching any desired city, the user is able to immediately get access to important weather information, including the temperature, humidity, and wind speed.
+This [application](https://nvanschaack.github.io/weather-dashboard/) is a weather dashboard meant for anyone who needs the current weather and 5-day forecast for any city in the world! After searching any desired city, the user is able to immediately get access to important weather information, including the temperature, humidity, and wind speed.
 
 ## Technologies
 - HTML5
