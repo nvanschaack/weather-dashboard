@@ -3,28 +3,35 @@ const searchBar = document.getElementById('search-bar')
 const currentWeather = document.getElementById('current-weather')
 const forecast = document.getElementById('forecast')
 
+//add a submit event to the search button, have it present getCurrentWeatherApi & getForecastWeatherApi on the DOM
 submit.addEventListener('submit', function (event) {
     event.preventDefault();
 
     const searchInput = searchBar.value
-    
+
     currentWeather.innerHTML = null
     forecast.innerHTML = null
 
     getCurrentWeatherApi(searchInput)
-    getForecaseWeatherApi(searchInput)
+    getForecastWeatherApi(searchInput)
 
-    //what goes into the searchvalue, i want saved to local storage
-    localStorage.setItem('searchInput', searchInput)
-    //need to getItem from localStorage
+    //store and retrieve local storage to display recent searches under searchbar
+    const storeSearchCity = JSON.parse(localStorage.getItem('storeSearchCity')) || []
+
+    if (searchInput) {
+        storeSearchCity.push(searchInput)
+        const storeSearchCityString = JSON.stringify(searchInput);
+        localStorage.setItem('storeSearchCity', storeSearchCityString)
+    } 
+    // i want the city stored in local storage to appear under the search bar when i search a new city
 })
 
+//retrieve current weather in any given city
 function getCurrentWeatherApi(city) {
     const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=92fcbfd3ad1811da2b8b45a50a20bd0c&units=imperial`
 
     fetch(requestUrl)
         .then(function (response) {
-            // console.log(response);
             return response.json()
         })
         .then(function (data) {
@@ -57,12 +64,12 @@ function getCurrentWeatherApi(city) {
 
 }
 
-function getForecaseWeatherApi(city) {
+//retrieve 5-day forecast in same city 
+function getForecastWeatherApi(city) {
     const requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=92fcbfd3ad1811da2b8b45a50a20bd0c&units=imperial`
 
     fetch(requestUrl)
         .then(function (response) {
-            // console.log(response);
             return response.json()
         })
         .then(function (data) {

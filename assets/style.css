@@ -1,3 +1,6 @@
+main {
+    display: flex;
+}
 header h1 {
     border: 1px solid black;
     padding: 1em;
@@ -7,12 +10,27 @@ header h1 {
     background-size: cover;
     color: white;
 }
+#form {
+    height: 3em;
+}
+#submit {
+    /* display: flex; */
+    border-radius: 25px;
+    padding: 3px;
+    margin: 5px;
+    font-size: large;
+}
+#search-bar {
+    padding: 10px;
+    font-size: larger;
+}
 #current-weather {
     border: 1px solid black;
+    margin: 10px;
 }
 #forecast {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 #each-day-forecast {
     border: 1px solid black;
@@ -20,6 +38,7 @@ header h1 {
     display: inline-block;
     background-color: navy;
     color: white;
+    margin: 5px;
 }
 @media screen and (max-width: 768px) {
 
