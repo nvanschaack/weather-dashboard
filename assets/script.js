@@ -2,6 +2,7 @@ const submit = document.getElementById('form')
 const searchBar = document.getElementById('search-bar')
 const currentWeather = document.getElementById('current-weather')
 const forecast = document.getElementById('forecast')
+const searchHistory = document.getElementById('recent-searches')
 
 //add a submit event to the search button, have it present getCurrentWeatherApi & getForecastWeatherApi on the DOM
 submit.addEventListener('submit', function (event) {
@@ -15,15 +16,22 @@ submit.addEventListener('submit', function (event) {
     getCurrentWeatherApi(searchInput)
     getForecastWeatherApi(searchInput)
 
+    // i want the city stored in local storage to appear under the search bar when i search a new city
     //store and retrieve local storage to display recent searches under searchbar
     const storeSearchCity = JSON.parse(localStorage.getItem('storeSearchCity')) || []
 
     if (searchInput) {
         storeSearchCity.push(searchInput)
-        const storeSearchCityString = JSON.stringify(searchInput);
+        const storeSearchCityString = JSON.stringify(storeSearchCity);
         localStorage.setItem('storeSearchCity', storeSearchCityString)
-    } 
-    // i want the city stored in local storage to appear under the search bar when i search a new city
+    }
+    for (let i = 0; i < storeSearchCity.length; i++) {
+        const element = storeSearchCity[i];
+        const recentSearches = document.createElement('div')
+        recentSearches.textContent = element
+        searchHistory.appendChild(recentSearches)
+    }
+    //when page refreshes, i still want to show data in local storage
 })
 
 //retrieve current weather in any given city
