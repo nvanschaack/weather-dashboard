@@ -25,6 +25,7 @@ function runStorage() {
     for (let i = 0; i < storeSearchCity.length; i++) {
         const element = storeSearchCity[i];
         const recentSearches = document.createElement('button')
+        recentSearches.setAttribute('class', 'recent-searches')
         recentSearches.textContent = element
         recentSearches.addEventListener('click', function () {
 
@@ -35,6 +36,7 @@ function runStorage() {
 
         })
         searchHistory.appendChild(recentSearches)
+
     }
 }
 
@@ -106,7 +108,7 @@ function getForecastWeatherApi(city) {
             console.log('forecast', data)
             
             forecast.innerHTML = ' '
-            
+
             // i want to make a loop so that the weather dashboard will display the 5-day forecast (at noon?)
             for (let i = 0; i < data.list.length; i++) {
                 const element = data.list[i];
