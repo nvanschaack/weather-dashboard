@@ -3,6 +3,7 @@ const searchBar = document.getElementById('search-bar')
 const currentWeather = document.getElementById('current-weather')
 const forecast = document.getElementById('forecast')
 const searchHistory = document.getElementById('recent-searches')
+const storeSearchCity = JSON.parse(localStorage.getItem('storeSearchCity')) || []
 
 //add a submit event to the search button, have it present getCurrentWeatherApi & getForecastWeatherApi on the DOM
 submit.addEventListener('submit', function (event) {
@@ -10,29 +11,50 @@ submit.addEventListener('submit', function (event) {
 
     const searchInput = searchBar.value
 
-    currentWeather.innerHTML = null
-    forecast.innerHTML = null
+    currentWeather.innerHTML = ''
+    forecast.innerHTML = ''
+    searchHistory.innerHTML = ''
 
     getCurrentWeatherApi(searchInput)
     getForecastWeatherApi(searchInput)
 
-    // i want the city stored in local storage to appear under the search bar when i search a new city
-    //store and retrieve local storage to display recent searches under searchbar
-    const storeSearchCity = JSON.parse(localStorage.getItem('storeSearchCity')) || []
 
-    if (searchInput) {
-        storeSearchCity.push(searchInput)
-        const storeSearchCityString = JSON.stringify(storeSearchCity);
-        localStorage.setItem('storeSearchCity', storeSearchCityString)
-    }
+})
+
+// i want the city stored in local storage to appear under the search bar when i search a new city
+function runStorage() {
     for (let i = 0; i < storeSearchCity.length; i++) {
         const element = storeSearchCity[i];
-        const recentSearches = document.createElement('div')
+        const recentSearches = document.createElement('button')
         recentSearches.textContent = element
+        recentSearches.addEventListener('click', function(){
+// use the keyword 'this' and see what it returns. acess the text content of the button and send that value to getCurrentWeatherAPI & getForecastWeatherApi
+
+
+        })
+
         searchHistory.appendChild(recentSearches)
     }
-    //when page refreshes, i still want to show data in local storage
-})
+}
+
+function saveToStorage(city) {
+
+    console.log(city);
+    if (city !== undefined) {
+        if (storeSearchCity.includes(city)) {
+            return
+        }
+
+        storeSearchCity.push(city)
+
+        const storeSearchCityString = JSON.stringify(storeSearchCity);
+
+        localStorage.setItem('storeSearchCity', storeSearchCityString)
+
+
+    }
+}
+
 
 //retrieve current weather in any given city
 function getCurrentWeatherApi(city) {
@@ -44,6 +66,10 @@ function getCurrentWeatherApi(city) {
         })
         .then(function (data) {
             console.log('current weather', data)
+
+
+            saveToStorage(data.name)
+            runStorage()
             // with data, i want to present it in current weather div
             //create element(s) to put city name, date, weather icon, temperature, humidity, and wind
 
@@ -113,4 +139,4 @@ function getForecastWeatherApi(city) {
         })
 }
 
-
+runStorage()
