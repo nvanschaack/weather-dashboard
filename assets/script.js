@@ -17,29 +17,29 @@ submit.addEventListener('submit', function (event) {
 
     getCurrentWeatherApi(searchInput)
     getForecastWeatherApi(searchInput)
-
-
 })
 
 // i want the city stored in local storage to appear under the search bar when i search a new city
 function runStorage() {
+    searchHistory.innerHTML = ' '
     for (let i = 0; i < storeSearchCity.length; i++) {
         const element = storeSearchCity[i];
         const recentSearches = document.createElement('button')
         recentSearches.textContent = element
-        recentSearches.addEventListener('click', function(){
-// use the keyword 'this' and see what it returns. acess the text content of the button and send that value to getCurrentWeatherAPI & getForecastWeatherApi
+        recentSearches.addEventListener('click', function () {
 
+            const city = this.textContent;
+            getCurrentWeatherApi(city);
+            getForecastWeatherApi(city);
+            console.log(city)
 
         })
-
         searchHistory.appendChild(recentSearches)
     }
 }
 
 function saveToStorage(city) {
-
-    console.log(city);
+    // console.log(city);
     if (city !== undefined) {
         if (storeSearchCity.includes(city)) {
             return
@@ -50,11 +50,8 @@ function saveToStorage(city) {
         const storeSearchCityString = JSON.stringify(storeSearchCity);
 
         localStorage.setItem('storeSearchCity', storeSearchCityString)
-
-
     }
 }
-
 
 //retrieve current weather in any given city
 function getCurrentWeatherApi(city) {
@@ -67,6 +64,7 @@ function getCurrentWeatherApi(city) {
         .then(function (data) {
             console.log('current weather', data)
 
+            currentWeather.innerHTML = ' '
 
             saveToStorage(data.name)
             runStorage()
@@ -89,13 +87,11 @@ function getCurrentWeatherApi(city) {
             humidity.textContent = `The humidity is ${data.main.humidity}%`
             wind.textContent = `The wind speed is ${data.wind.speed}mph`
 
-
             newWeatherDiv.append(cityName, icon, temperature, humidity, wind)
             currentWeather.append(newWeatherDiv)
 
             newWeatherDiv.setAttribute('id', 'current-weather')
         })
-
 }
 
 //retrieve 5-day forecast in same city 
@@ -108,13 +104,15 @@ function getForecastWeatherApi(city) {
         })
         .then(function (data) {
             console.log('forecast', data)
-
+            
+            forecast.innerHTML = ' '
+            
             // i want to make a loop so that the weather dashboard will display the 5-day forecast (at noon?)
             for (let i = 0; i < data.list.length; i++) {
                 const element = data.list[i];
                 if (element.dt_txt.split(' ')[1] === '12:00:00' && i > 0) {
-                    console.log(element)
-
+                    // console.log(element)
+            
                     const newForecastDiv = document.createElement('div')
                     const temperature = document.createElement('p')
                     const humidity = document.createElement('p')
@@ -133,7 +131,6 @@ function getForecastWeatherApi(city) {
                     forecast.append(newForecastDiv)
 
                     newForecastDiv.setAttribute('id', 'each-day-forecast')
-                    // newForecastDiv.setAttribute('class', 'card-body')
                 }
             }
         })
